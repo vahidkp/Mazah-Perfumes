@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 560" width="400" height="560">
+  <defs>
+    <linearGradient id="glass" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.85"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0.35"/>
+    </linearGradient>
+    <linearGradient id="liquid" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#F2E07A"/>
+      <stop offset="1" stop-color="#C9A227"/>
+    </linearGradient>
+  </defs>
+  <!-- cap -->
+  <rect x="170" y="40" width="60" height="70" rx="8" fill="#C9A227"/>
+  <rect x="178" y="20" width="44" height="34" rx="6" fill="#F2E07A"/>
+  <!-- neck -->
+  <rect x="182" y="104" width="36" height="34" fill="#C9A227" opacity="0.85"/>
+  <!-- body -->
+  <rect x="96" y="138" width="208" height="320" rx="34" fill="url(#glass)" stroke="#C9A227" stroke-width="3"/>
+  <!-- liquid fill -->
+  <rect x="112" y="250" width="176" height="192" rx="22" fill="url(#liquid)" opacity="0.92"/>
+  <!-- highlight -->
+  <rect x="124" y="166" width="26" height="250" rx="13" fill="#ffffff" opacity="0.45"/>
+  <!-- label -->
+  <rect x="138" y="300" width="124" height="92" rx="8" fill="#FAF6EE" opacity="0.92"/>
+  <text x="200" y="338" font-family="Georgia, serif" font-size="20" font-weight="700"
+        fill="#1C1C1C" text-anchor="middle">MAZAH</text>
+  <text x="200" y="364" font-family="Georgia, serif" font-size="13" font-style="italic"
+        fill="#8A7E6E" text-anchor="middle">Citrus Luxe</text>
+</svg>

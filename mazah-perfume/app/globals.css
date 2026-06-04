@@ -1,0 +1,88 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --gold-primary: #c8962a;
+  --gold-light: #e8c56a;
+  --amber-bg: #d4903a;
+  --cream: #faf6ee;
+  --charcoal: #1c1c1c;
+  --muted: #8a7e6e;
+  --radius-card: 12px;
+  --radius-pill: 999px;
+  --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--cream);
+  color: var(--charcoal);
+  font-family: var(--font-dm-sans), sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Typography utilities */
+.font-display {
+  font-family: var(--font-playfair), serif;
+}
+.font-heading {
+  font-family: var(--font-cormorant), serif;
+}
+
+/* Focus-visible accessibility */
+*:focus-visible {
+  outline: 2px solid var(--gold-primary);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Gold gradient background */
+.bg-hero-gradient {
+  background: linear-gradient(
+    135deg,
+    #c8962a 0%,
+    #d4903a 40%,
+    #e8c56a 70%,
+    #c8962a 100%
+  );
+}
+
+/* Marquee animation */
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+.animate-marquee {
+  animation: marquee 28s linear infinite;
+}
+
+/* Float animation for product bottle */
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+
+/* Thin scrollbars */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
