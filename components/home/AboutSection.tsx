@@ -28,8 +28,8 @@ export default function AboutSection() {
         >
           {/* Inner box sized to the collage bounds so mx-auto/justify-center
               actually centres the cluster on mobile instead of pinning it left */}
-          <div className="relative w-[280px] h-[400px] md:w-full md:h-[560px]">
-            <div className="absolute top-0 left-0 w-36 md:w-56 h-48 md:h-72 rounded-card overflow-hidden shadow-hover">
+          <div className="relative w-[280px] h-[400px] md:w-full md:h-[480px] lg:h-[560px]">
+            <div className="absolute top-0 left-0 w-36 md:w-40 lg:w-56 h-48 lg:h-72 rounded-card overflow-hidden shadow-hover">
               <Image
                 src="/images/about-1.jpg"
                 alt="Perfume bottle"
@@ -38,7 +38,7 @@ export default function AboutSection() {
                 sizes="(max-width:768px) 45vw, 20vw"
               />
             </div>
-            <div className="absolute top-10 left-[135px] md:top-12 md:left-[210px] w-36 md:w-52 h-52 md:h-64 rounded-card overflow-hidden shadow-card">
+            <div className="absolute top-10 left-[135px] md:top-8 md:left-36 lg:top-12 lg:left-[210px] w-36 lg:w-52 h-52 lg:h-64 rounded-card overflow-hidden shadow-card">
               <Image
                 src="/images/about-2.jpg"
                 alt="Rare ingredients"
@@ -47,7 +47,7 @@ export default function AboutSection() {
                 sizes="(max-width:768px) 45vw, 20vw"
               />
             </div>
-            <div className="absolute top-44 left-6 md:top-56 md:left-14 w-44 md:w-64 h-56 md:h-80 rounded-card overflow-hidden shadow-hover">
+            <div className="absolute top-44 left-6 md:top-40 md:left-10 lg:top-56 lg:left-14 w-44 lg:w-64 h-56 lg:h-80 rounded-card overflow-hidden shadow-hover">
               <Image
                 src="/images/about-3.jpg"
                 alt="Model wearing perfume"
@@ -64,7 +64,7 @@ export default function AboutSection() {
           variants={slideInRight}
           initial="hidden"
           animate={inView ? 'visible' : 'hidden'}
-          className="flex flex-col gap-5 text-center md:text-left"
+          className="flex flex-col gap-5 text-left"
         >
           <p className="font-body text-xs uppercase tracking-[0.3em] text-gold-primary">
             About us
@@ -84,7 +84,7 @@ export default function AboutSection() {
           </p>
 
           {/* Proof points */}
-          <ul className="flex flex-col gap-2.5 w-fit mx-auto md:mx-0">
+          <ul className="flex flex-col gap-2.5 w-fit">
             {PROOF_POINTS.map((point) => (
               <li
                 key={point}
@@ -100,7 +100,7 @@ export default function AboutSection() {
 
           <Link
             href="/about"
-            className="inline-flex items-center gap-2 self-center md:self-start mt-1 font-body text-sm tracking-widest uppercase text-gold-primary hover:gap-3 transition-all group"
+            className="inline-flex items-center gap-2 self-start mt-1 font-body text-sm tracking-widest uppercase text-gold-primary hover:gap-3 transition-all group"
           >
             Read Our Story
             <ArrowRight size={16} className="group-hover:translate-x-0.5 transition-transform" />
