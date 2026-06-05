@@ -22,6 +22,7 @@ export default function FilterBar({
   const [open, setOpen] = useState(false)
 
   return (
+    <>
     <div className="sticky top-[96px] md:top-[108px] z-30 bg-cream/95 backdrop-blur-sm border-b border-charcoal/10">
       {/* Desktop / tablet bar */}
       <div className="hidden md:block py-4 px-6">
@@ -71,10 +72,15 @@ export default function FilterBar({
           </span>
         )}
       </div>
+      </div>
 
-      {/* Mobile bottom sheet */}
+      {/* Mobile bottom sheet — rendered as a sibling of the sticky bar so it
+          escapes the bar's z-30 stacking context. Otherwise the navbar's
+          higher root-level z-index paints over the open sheet, leaving the
+          navbar visible on top of the filter. z-[70] sits above the navbar
+          (z-50) and announcement bar (z-60). */}
       {open && (
-        <div className="fixed inset-0 z-50 md:hidden">
+        <div className="fixed inset-0 z-[70] md:hidden">
           <div
             className="absolute inset-0 bg-charcoal/40"
             onClick={() => setOpen(false)}
@@ -139,6 +145,6 @@ export default function FilterBar({
           </div>
         </div>
       )}
-    </div>
+    </>
   )
 }

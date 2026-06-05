@@ -28,8 +28,8 @@ export default function AboutSection() {
         >
           {/* Inner box sized to the collage bounds so mx-auto/justify-center
               actually centres the cluster on mobile instead of pinning it left */}
-          <div className="relative w-[280px] h-[400px] md:w-full md:h-[480px]">
-            <div className="absolute top-0 left-0 w-36 md:w-40 h-48 md:h-48 rounded-card overflow-hidden shadow-hover">
+          <div className="relative w-[280px] h-[400px] md:w-full md:h-[560px]">
+            <div className="absolute top-0 left-0 w-36 md:w-56 h-48 md:h-72 rounded-card overflow-hidden shadow-hover">
               <Image
                 src="/images/about-1.jpg"
                 alt="Perfume bottle"
@@ -38,7 +38,7 @@ export default function AboutSection() {
                 sizes="(max-width:768px) 45vw, 20vw"
               />
             </div>
-            <div className="absolute top-10 left-[135px] md:top-8 md:left-36 w-36 h-52 rounded-card overflow-hidden shadow-card">
+            <div className="absolute top-10 left-[135px] md:top-12 md:left-[210px] w-36 md:w-52 h-52 md:h-64 rounded-card overflow-hidden shadow-card">
               <Image
                 src="/images/about-2.jpg"
                 alt="Rare ingredients"
@@ -47,7 +47,7 @@ export default function AboutSection() {
                 sizes="(max-width:768px) 45vw, 20vw"
               />
             </div>
-            <div className="absolute top-44 left-6 md:top-40 md:left-10 w-44 h-56 rounded-card overflow-hidden shadow-hover">
+            <div className="absolute top-44 left-6 md:top-56 md:left-14 w-44 md:w-64 h-56 md:h-80 rounded-card overflow-hidden shadow-hover">
               <Image
                 src="/images/about-3.jpg"
                 alt="Model wearing perfume"

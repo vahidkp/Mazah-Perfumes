@@ -7,22 +7,20 @@ import ScrollReveal from '@/components/ui/ScrollReveal'
 export default function EditorialBanner() {
   return (
     <section className="max-w-content mx-auto px-6 py-12 md:py-20">
-      <ScrollReveal className="relative rounded-2xl overflow-hidden bg-gradient-to-r from-[#E7C98F] via-[#D9A85B] to-[#C8962A] min-h-[420px] md:min-h-[480px] flex items-center">
-        {/* Model image left */}
-        <div className="absolute left-0 top-0 bottom-0 w-1/2 md:w-2/5 hidden sm:block">
-          <Image
-            src="/images/editorial-model.jpg"
-            alt="Model with Illure fragrance"
-            fill
-            className="object-cover"
-            sizes="50vw"
-          />
-        </div>
+      <ScrollReveal className="relative rounded-2xl overflow-hidden min-h-[440px] md:min-h-[520px] flex items-center">
+        {/* Full-width model image */}
+        <Image
+          src="/images/editorial-model.jpg"
+          alt="Model with Illure fragrance"
+          fill
+          className="object-cover object-[center_58%]"
+          sizes="(max-width:768px) 100vw, 1200px"
+        />
 
-        {/* Faint ILLURE wordmark */}
-        <span className="absolute inset-0 flex items-center justify-center font-display text-[30vw] md:text-[16rem] font-bold text-white/10 select-none pointer-events-none leading-none">
-          ILLURE
-        </span>
+        {/* Warm scrim — keeps the model visible on the left while building to
+            brand gold on the right so the copy stays legible */}
+        <div className="absolute inset-0 bg-black/15" />
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#C8962A]/25 to-[#C8962A]/90" />
 
         {/* Content right */}
         <div className="relative z-10 ml-auto w-full sm:w-3/5 md:w-1/2 px-8 md:px-14 py-12 text-center sm:text-left">
