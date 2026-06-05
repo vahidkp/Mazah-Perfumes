@@ -22,7 +22,7 @@ export default function FilterBar({
   const [open, setOpen] = useState(false)
 
   return (
-    <div className="sticky top-[60px] md:top-[72px] z-30 bg-cream/95 backdrop-blur-sm border-b border-charcoal/10">
+    <div className="sticky top-[96px] md:top-[108px] z-30 bg-cream/95 backdrop-blur-sm border-b border-charcoal/10">
       {/* Desktop / tablet bar */}
       <div className="hidden md:block py-4 px-6">
         <div className="max-w-content mx-auto flex flex-wrap items-center justify-between gap-4">

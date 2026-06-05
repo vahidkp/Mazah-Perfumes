@@ -15,19 +15,19 @@ export default function NewsletterSection() {
             }}
           />
 
-          <ScrollReveal className="relative z-10 flex flex-col items-center gap-6">
+          <ScrollReveal className="relative z-10 flex flex-col items-center gap-5">
             <p className="font-body text-xs uppercase tracking-[0.3em] text-gold-primary">
-              Newsletter
+              Welcome Offer
             </p>
-            <h2 className="font-display text-4xl md:text-5xl text-white font-bold">
-              Stay <em className="font-normal">in the Loop</em>
+            <h2 className="font-display text-4xl md:text-5xl text-white font-bold leading-tight">
+              Get <em className="font-normal">15% off</em> your first order
             </h2>
-            <p className="font-body text-sm text-cream/60 max-w-sm leading-relaxed">
-              Be the first to know about new collections, exclusive offers, and
-              fragrance stories.
+            <p className="font-body text-sm text-cream/70 max-w-md leading-relaxed">
+              Join 12,000+ fragrance lovers and unlock your welcome gift. Plus
+              48-hour early access to every limited drop, before the public.
             </p>
             <form
-              className="flex flex-col sm:flex-row gap-3 w-full max-w-md"
+              className="flex flex-col sm:flex-row gap-3 w-full max-w-md mt-1"
               onSubmit={(e) => e.preventDefault()}
             >
               <input
@@ -41,9 +41,12 @@ export default function NewsletterSection() {
                 type="submit"
                 className="px-7 py-3 rounded-pill bg-gold-primary text-white font-body text-xs uppercase tracking-widest hover:bg-gold-light hover:text-charcoal transition-all whitespace-nowrap"
               >
-                Subscribe
+                Claim 15% Off
               </button>
             </form>
+            <p className="font-body text-[11px] text-cream/40">
+              No spam — just early drops and the occasional gift. Unsubscribe anytime.
+            </p>
           </ScrollReveal>
         </div>
       </div>

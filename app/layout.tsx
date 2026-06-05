@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Playfair_Display, Cormorant_Garamond, DM_Sans } from 'next/font/google'
 import dynamic from 'next/dynamic'
 import './globals.css'
+import AnnouncementBar from '@/components/layout/AnnouncementBar'
 import Navbar from '@/components/layout/Navbar'
 import Footer from '@/components/layout/Footer'
 
@@ -44,6 +45,7 @@ export default function RootLayout({
       className={`${playfair.variable} ${cormorant.variable} ${dmSans.variable}`}
     >
       <body>
+        <AnnouncementBar />
         <Navbar />
         <main>{children}</main>
         <Footer />

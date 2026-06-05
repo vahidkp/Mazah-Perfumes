@@ -8,6 +8,16 @@ export interface Product {
   images: string[]
   sizes: Array<{ ml: number; price: number; originalPrice?: number }>
   scentNotes: { top: string[]; heart: string[]; base: string[] }
+  /** Structured fragrance "nutrition label" shown on the PDP. */
+  specs: {
+    longevity: string
+    sillage: string
+    concentration: string
+    season: string
+    bestFor: string
+  }
+  /** Units remaining — drives scarcity messaging on LIMITED items. */
+  stock?: number
   description: string
   story: string
   ingredients: string
@@ -23,6 +33,7 @@ export interface Review {
   avatar?: string
   rating: number
   date: string
+  verified?: boolean
   text: string
 }
 

@@ -165,7 +165,7 @@ export default function CartDrawer() {
                             <Plus size={12} />
                           </button>
                         </div>
-                        <p className="font-heading text-base text-gold-primary font-semibold">
+                        <p className="font-body text-base text-gold-primary font-semibold">
                           {formatPrice(item.price * item.qty)}
                         </p>
                       </div>
@@ -213,15 +213,17 @@ export default function CartDrawer() {
                   </div>
                   <div className="flex justify-between font-heading text-xl text-charcoal pt-2 border-t border-charcoal/10">
                     <span>Total</span>
-                    <span className="text-gold-primary font-semibold">
+                    <span className="font-body text-gold-primary font-semibold">
                       {formatPrice(total > 100 ? total : total + 9.99)}
                     </span>
                   </div>
                 </div>
 
-                <Button variant="gold" size="lg" className="w-full">
-                  Checkout →
-                </Button>
+                <Link href="/checkout" onClick={closeCart} className="block">
+                  <Button variant="gold" size="lg" className="w-full">
+                    Checkout →
+                  </Button>
+                </Link>
 
                 <button
                   onClick={closeCart}

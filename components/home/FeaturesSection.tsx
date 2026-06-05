@@ -82,7 +82,7 @@ export default function FeaturesSection() {
           <ScrollReveal delay={0.2} className="flex justify-center order-1 md:order-2">
             <div className="animate-float">
               <Image
-                src="/images/feature-bottle.svg"
+                src="/images/feature-bottle.png"
                 alt="Mazah perfume bottle"
                 width={240}
                 height={320}

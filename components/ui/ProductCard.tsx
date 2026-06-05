@@ -8,6 +8,7 @@ import { useWishlistStore } from '@/store/wishlist'
 import { useCartStore } from '@/store/cart'
 import type { Product } from '@/types'
 import Badge from './Badge'
+import StarRating from './StarRating'
 
 interface Props {
   product: Product
@@ -97,12 +98,22 @@ export default function ProductCard({ product, className }: Props) {
         <p className="font-heading text-lg text-charcoal leading-tight">
           {product.name}
         </p>
+        {/* Star rating + review count (CRO QW#05) */}
+        <div className="mt-1">
+          <StarRating rating={product.rating} count={product.reviewCount} size={13} />
+        </div>
         <p className="font-body text-sm text-muted capitalize mt-0.5">
           {product.category}
         </p>
-        <p className="font-heading text-base text-gold-primary font-medium mt-1">
+        <p className="font-body text-base text-gold-primary font-medium mt-1">
           {formatPrice(lowestPrice)}
         </p>
+        {/* Scarcity nudge for low-stock LIMITED items (CRO high-impact) */}
+        {typeof product.stock === 'number' && product.stock <= 10 && (
+          <p className="font-body text-xs text-red-600 font-medium mt-1">
+            Only {product.stock} left
+          </p>
+        )}
       </div>
     </Link>
   )

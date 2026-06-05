@@ -11,7 +11,7 @@ export default function EditorialBanner() {
         {/* Model image left */}
         <div className="absolute left-0 top-0 bottom-0 w-1/2 md:w-2/5 hidden sm:block">
           <Image
-            src="/images/editorial-model.svg"
+            src="/images/editorial-model.jpg"
             alt="Model with Illure fragrance"
             fill
             className="object-cover"

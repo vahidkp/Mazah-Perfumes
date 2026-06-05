@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer components {
+  .checkout-input {
+    @apply w-full font-body text-sm border border-charcoal/20 rounded-lg px-4 py-3 bg-white focus:outline-none focus:border-gold-primary transition-colors;
+  }
+}
+
 :root {
   --gold-primary: #c8962a;
   --gold-light: #e8c56a;

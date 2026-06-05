@@ -8,6 +8,7 @@ import ImageGallery from '@/components/product/ImageGallery'
 import ProductInfo from '@/components/product/ProductInfo'
 import ScentStory from '@/components/product/ScentStory'
 import ReviewsSection from '@/components/product/ReviewsSection'
+import ProductFAQ from '@/components/product/ProductFAQ'
 import RelatedProducts from '@/components/product/RelatedProducts'
 
 export function generateStaticParams() {
@@ -29,7 +30,7 @@ export default function ProductPage({
   const related = getRelatedProducts(product.related)
 
   return (
-    <div className="pt-24">
+    <div className="pt-[120px] md:pt-[140px]">
       {/* Hero: image + info */}
       <section className="max-w-content mx-auto px-6 py-12">
         <div className="grid md:grid-cols-[1.2fr_1fr] gap-8 md:gap-12 items-start">
@@ -38,7 +39,7 @@ export default function ProductPage({
             name={product.name}
             badges={product.badges}
           />
-          <div className="md:sticky md:top-24">
+          <div className="md:sticky md:top-32">
             <ProductInfo product={product} />
           </div>
         </div>
@@ -50,6 +51,7 @@ export default function ProductPage({
         rating={product.rating}
         count={product.reviewCount}
       />
+      <ProductFAQ product={product} />
       <RelatedProducts products={related} />
     </div>
   )

@@ -1,6 +1,6 @@
 export default function CollectionsHero() {
   return (
-    <section className="bg-hero-gradient pt-28 md:pt-32 pb-16 text-center relative overflow-hidden">
+    <section className="bg-hero-gradient pt-[128px] md:pt-[152px] pb-16 text-center relative overflow-hidden">
       <div
         className="absolute inset-0 pointer-events-none"
         style={{

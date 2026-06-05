@@ -34,3 +34,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Raw AI-generated source images (placed copies live in public/images)
+Generated Images/
