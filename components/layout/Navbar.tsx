@@ -247,7 +247,7 @@ export default function Navbar() {
         {/* Centered logo pill overlapping the hero / page top */}
         <Link
           href="/"
-          className={`${PILL} absolute left-1/2 -translate-x-1/2 -bottom-5 z-10 inline-flex items-center h-10 px-7 font-display text-lg font-extrabold lowercase tracking-tightest text-ink`}
+          className={`${PILL} absolute left-1/2 -translate-x-1/2 top-full mt-2 z-10 inline-flex items-center h-10 px-7 font-display text-lg font-extrabold lowercase tracking-tightest text-ink`}
         >
           mazah
         </Link>
