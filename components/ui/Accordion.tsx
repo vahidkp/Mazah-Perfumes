@@ -9,39 +9,66 @@ interface Item {
 }
 interface Props {
   items: Item[]
+  /** Indices open by default. */
+  defaultOpen?: number[]
+  className?: string
 }
 
-export default function Accordion({ items }: Props) {
-  const [open, setOpen] = useState<number | null>(0)
+export default function Accordion({
+  items,
+  defaultOpen = [],
+  className,
+}: Props) {
+  const [open, setOpen] = useState<Set<number>>(new Set(defaultOpen))
+
+  const toggle = (i: number) =>
+    setOpen((prev) => {
+      const next = new Set(prev)
+      if (next.has(i)) next.delete(i)
+      else next.add(i)
+      return next
+    })
+
   return (
-    <div className="divide-y divide-charcoal/10 border-t border-charcoal/10">
-      {items.map(({ title, content }, i) => (
-        <div key={i}>
-          <button
-            onClick={() => setOpen(open === i ? null : i)}
-            className="w-full flex justify-between items-center py-4 text-left"
-          >
-            <span className="font-body text-sm font-medium tracking-wider uppercase">
-              {title}
-            </span>
-            {open === i ? (
-              <Minus size={16} className="text-gold-primary" />
-            ) : (
-              <Plus size={16} className="text-gold-primary" />
-            )}
-          </button>
-          <div
-            className={cn(
-              'overflow-hidden transition-all duration-300',
-              open === i ? 'max-h-96 pb-4' : 'max-h-0'
-            )}
-          >
-            <div className="font-body text-sm text-muted leading-relaxed">
-              {content}
+    <div className={cn('border-t border-line', className)}>
+      {items.map(({ title, content }, i) => {
+        const isOpen = open.has(i)
+        return (
+          <div key={i} className="border-b border-line">
+            <button
+              onClick={() => toggle(i)}
+              className="w-full flex justify-between items-center py-4 text-left group"
+              aria-expanded={isOpen}
+              aria-controls={`accordion-panel-${i}`}
+            >
+              <span className="font-body text-sm font-semibold text-ink">
+                {title}
+              </span>
+              {isOpen ? (
+                <Minus size={16} className="text-ink shrink-0" />
+              ) : (
+                <Plus size={16} className="text-muted group-hover:text-ink shrink-0" />
+              )}
+            </button>
+            <div
+              id={`accordion-panel-${i}`}
+              role="region"
+              className={cn(
+                'grid transition-all duration-300 ease-smooth',
+                isOpen
+                  ? 'grid-rows-[1fr] opacity-100 pb-5'
+                  : 'grid-rows-[0fr] opacity-0'
+              )}
+            >
+              <div className="overflow-hidden">
+                <div className="font-body text-sm text-muted leading-relaxed">
+                  {content}
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      ))}
+        )
+      })}
     </div>
   )
 }

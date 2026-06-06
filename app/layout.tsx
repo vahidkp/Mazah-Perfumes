@@ -1,37 +1,35 @@
 import type { Metadata } from 'next'
-import { Playfair_Display, Cormorant_Garamond, DM_Sans } from 'next/font/google'
+import { Hanken_Grotesk, DM_Sans } from 'next/font/google'
 import dynamic from 'next/dynamic'
 import './globals.css'
 import AnnouncementBar from '@/components/layout/AnnouncementBar'
 import Navbar from '@/components/layout/Navbar'
 import Footer from '@/components/layout/Footer'
 
-// CartDrawer is client-only and excluded from the initial bundle.
+// Client-only chrome excluded from the initial server bundle.
 const CartDrawer = dynamic(() => import('@/components/layout/CartDrawer'), {
   ssr: false,
 })
+const PromoTab = dynamic(() => import('@/components/layout/PromoTab'), {
+  ssr: false,
+})
 
-const playfair = Playfair_Display({
+const display = Hanken_Grotesk({
   subsets: ['latin'],
-  variable: '--font-playfair',
+  weight: ['400', '500', '600', '700', '800'],
+  variable: '--font-display',
   display: 'swap',
 })
-const cormorant = Cormorant_Garamond({
+const body = DM_Sans({
   subsets: ['latin'],
-  weight: ['300', '400', '500', '600', '700'],
-  variable: '--font-cormorant',
-  display: 'swap',
-})
-const dmSans = DM_Sans({
-  subsets: ['latin'],
-  variable: '--font-dm-sans',
+  variable: '--font-body',
   display: 'swap',
 })
 
 export const metadata: Metadata = {
-  title: 'Mazah Perfume — Elegance in Bloom',
+  title: 'Mazah — The Perfume House for the Next Generation',
   description:
-    'Timeless luxury fragrances crafted with passion and elegance, designed to leave a lasting impression.',
+    'Premium-quality fragrances crafted in France. Designer-inspired Impressions and Mazah Originals — no excessive markups, crafted with heart, not ego.',
 }
 
 export default function RootLayout({
@@ -40,16 +38,14 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html
-      lang="en"
-      className={`${playfair.variable} ${cormorant.variable} ${dmSans.variable}`}
-    >
-      <body>
+    <html lang="en" className={`${display.variable} ${body.variable}`}>
+      <body className="bg-paper">
         <AnnouncementBar />
         <Navbar />
         <main>{children}</main>
         <Footer />
         <CartDrawer />
+        <PromoTab />
       </body>
     </html>
   )

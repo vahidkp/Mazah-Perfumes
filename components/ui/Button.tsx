@@ -1,42 +1,56 @@
+import Link from 'next/link'
 import { cn } from '@/lib/utils'
-import { ButtonHTMLAttributes } from 'react'
+import type { ButtonHTMLAttributes, ReactNode } from 'react'
 
-interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'gold' | 'outline' | 'ghost' | 'dark'
-  size?: 'sm' | 'md' | 'lg'
+type Variant = 'solid' | 'outline' | 'ghost'
+type Size = 'sm' | 'md' | 'lg'
+
+const base =
+  'inline-flex items-center justify-center gap-2 font-body font-medium rounded-pill transition-colors duration-200 cursor-pointer disabled:opacity-50 disabled:pointer-events-none'
+
+const variants: Record<Variant, string> = {
+  solid: 'bg-ink text-paper hover:bg-black',
+  outline: 'bg-paper text-ink border border-ink hover:bg-ink hover:text-paper',
+  ghost: 'bg-transparent text-ink hover:bg-ink/5',
 }
 
-const variants = {
-  gold: 'bg-gold-primary text-white hover:bg-gold-muted border border-gold-primary',
-  outline:
-    'bg-transparent text-gold-primary border border-gold-primary hover:bg-gold-primary hover:text-white',
-  ghost:
-    'bg-transparent text-charcoal border border-charcoal/20 hover:border-charcoal',
-  dark: 'bg-charcoal text-cream border border-charcoal hover:bg-charcoal/80',
-}
-const sizes = {
-  sm: 'px-5 py-2 text-xs tracking-widest',
-  md: 'px-7 py-3 text-sm tracking-widest',
-  lg: 'px-10 py-4 text-sm tracking-widest',
+const sizes: Record<Size, string> = {
+  sm: 'text-xs px-4 py-2.5',
+  md: 'text-sm px-6 py-3',
+  lg: 'text-sm px-8 py-4',
 }
 
-export default function Button({
-  variant = 'gold',
-  size = 'md',
-  className,
-  children,
-  ...props
-}: Props) {
+interface BaseProps {
+  variant?: Variant
+  size?: Size
+  className?: string
+  children: ReactNode
+}
+
+type ButtonProps = BaseProps &
+  Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'children'>
+type AnchorProps = BaseProps & { href: string }
+
+export default function Button(props: ButtonProps | AnchorProps) {
+  const { variant = 'solid', size = 'md', className, children } = props
+  const classes = cn(base, variants[variant], sizes[size], className)
+
+  if ('href' in props && props.href) {
+    return (
+      <Link href={props.href} className={classes}>
+        {children}
+      </Link>
+    )
+  }
+  const rest = { ...props } as Record<string, unknown>
+  delete rest.variant
+  delete rest.size
+  delete rest.className
+  delete rest.children
   return (
     <button
-      className={cn(
-        'inline-flex items-center justify-center gap-2 rounded-pill font-body uppercase',
-        'transition-all duration-300 cursor-pointer disabled:opacity-50',
-        variants[variant],
-        sizes[size],
-        className
-      )}
-      {...props}
+      className={classes}
+      {...(rest as ButtonHTMLAttributes<HTMLButtonElement>)}
     >
       {children}
     </button>

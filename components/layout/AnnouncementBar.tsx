@@ -1,44 +1,28 @@
-import { Truck, Gift, Globe } from 'lucide-react'
-
-const MESSAGES = [
-  { icon: Truck, text: 'Free shipping on orders over $100' },
-  { icon: Gift, text: '15% off your first order — code WELCOME15' },
-  { icon: Globe, text: 'Shipped to 120+ countries' },
-]
+import Link from 'next/link'
+import { Info } from 'lucide-react'
 
 export default function AnnouncementBar() {
   return (
-    <div className="fixed top-0 inset-x-0 z-[60] h-9 bg-charcoal text-cream flex items-center overflow-hidden">
-      <div className="max-w-content mx-auto w-full px-4">
-        {/* Desktop: three messages inline */}
-        <div className="hidden md:flex items-center justify-center gap-8">
-          {MESSAGES.map(({ icon: Icon, text }) => (
-            <span
-              key={text}
-              className="flex items-center gap-2 font-body text-[11px] tracking-wider uppercase text-cream/90"
-            >
-              <Icon size={13} className="text-gold-light" />
-              {text}
-            </span>
-          ))}
+    <div className="bg-ink text-paper">
+      <div className="container-wide h-9 flex items-center justify-between text-[11px] sm:text-xs font-body">
+        {/* Left message */}
+        <span className="hidden md:flex items-center gap-1.5 whitespace-nowrap">
+          Free 3ml samples with Mazah+
+          <Link href="/discovery-kit" className="underline underline-offset-2">
+            Learn more
+          </Link>
+        </span>
+
+        {/* Center message — marquee on mobile, centered on desktop */}
+        <div className="flex-1 md:flex-none md:absolute md:left-1/2 md:-translate-x-1/2 overflow-hidden">
+          <span className="flex items-center justify-center gap-1.5 whitespace-nowrap">
+            Mazah+ Member: Up to 30% OFF + FREE shipping + FREE perfume
+            <Info size={12} className="opacity-70" />
+          </span>
         </div>
-        {/* Mobile: a marquee cycling the same messages */}
-        <div className="md:hidden overflow-hidden">
-          <div
-            className="flex items-center gap-8 animate-marquee whitespace-nowrap"
-            style={{ width: 'max-content' }}
-          >
-            {[...MESSAGES, ...MESSAGES].map(({ icon: Icon, text }, i) => (
-              <span
-                key={i}
-                className="flex items-center gap-2 font-body text-[11px] tracking-wider uppercase text-cream/90"
-              >
-                <Icon size={13} className="text-gold-light" />
-                {text}
-              </span>
-            ))}
-          </div>
-        </div>
+
+        {/* Right spacer (desktop) */}
+        <span className="hidden md:block w-[180px]" />
       </div>
     </div>
   )

@@ -1,61 +1,59 @@
 'use client'
 import { useState } from 'react'
 import Image from 'next/image'
-import Badge from '@/components/ui/Badge'
-import type { Product } from '@/types'
+import { cn } from '@/lib/utils'
 
 interface Props {
   images: string[]
   name: string
-  badges: Product['badges']
+  tint: string
 }
 
-export default function ImageGallery({ images, name, badges }: Props) {
+export default function ImageGallery({ images, name, tint }: Props) {
   const [active, setActive] = useState(0)
   return (
-    <div className="flex flex-col gap-4">
-      {/* Main image */}
-      <div className="relative aspect-square rounded-card overflow-hidden bg-gradient-to-b from-amber-50 to-amber-100 group cursor-zoom-in">
-        <Image
-          src={images[active]}
-          alt={name}
-          fill
-          className="object-contain p-8 transition-transform duration-500 group-hover:scale-110"
-          sizes="(max-width:768px) 100vw, 55vw"
-          priority
-        />
-        <div className="absolute top-4 left-4 flex flex-col gap-2">
-          {badges.map((b) => (
-            <Badge key={b} variant={b} />
-          ))}
-        </div>
-      </div>
-
+    <div className="flex flex-col-reverse sm:flex-row gap-3">
       {/* Thumbnails */}
       {images.length > 1 && (
-        <div className="flex gap-2 md:gap-3 overflow-x-auto pb-1 snap-x snap-mandatory no-scrollbar">
+        <div className="flex sm:flex-col gap-3 overflow-x-auto no-scrollbar">
           {images.map((img, i) => (
             <button
               key={i}
               onClick={() => setActive(i)}
-              aria-label={`View image ${i + 1}`}
-              className={`snap-start relative w-16 md:w-20 flex-shrink-0 aspect-square rounded-lg overflow-hidden border-2 transition-all bg-gradient-to-b from-amber-50 to-amber-100 ${
-                active === i
-                  ? 'border-gold-primary'
-                  : 'border-transparent hover:border-charcoal/20'
-              }`}
+              aria-label={`${active === i ? 'Current view' : 'View'} image ${i + 1} of ${images.length}: ${name}`}
+              aria-current={active === i}
+              className={cn(
+                'relative w-16 h-16 shrink-0 rounded-lg overflow-hidden border transition-all',
+                active === i ? 'border-ink' : 'border-line hover:border-ink/40'
+              )}
+              style={{ backgroundColor: tint }}
             >
               <Image
                 src={img}
                 alt={`${name} view ${i + 1}`}
                 fill
-                className="object-contain p-2"
-                sizes="80px"
+                className="object-contain p-1.5 blend-multiply"
+                sizes="64px"
               />
             </button>
           ))}
         </div>
       )}
+
+      {/* Main image */}
+      <div
+        className="relative flex-1 aspect-square rounded-card overflow-hidden group cursor-zoom-in"
+        style={{ backgroundColor: tint }}
+      >
+        <Image
+          src={images[active]}
+          alt={name}
+          fill
+          priority
+          className="object-contain p-8 blend-multiply transition-transform duration-500 group-hover:scale-105"
+          sizes="(max-width:768px) 100vw, 50vw"
+        />
+      </div>
     </div>
   )
 }

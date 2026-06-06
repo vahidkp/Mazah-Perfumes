@@ -1,54 +1,55 @@
 import type { Metadata } from 'next'
 import Image from 'next/image'
-import Link from 'next/link'
 import { Check } from 'lucide-react'
+import Button from '@/components/ui/Button'
 
 export const metadata: Metadata = {
-  title: 'Our Story — Mazah Perfume',
+  title: 'About — Mazah',
   description:
-    'How Mazah crafts long-lasting luxury fragrances — small batches, rare botanicals, and no synthetic shortcuts.',
+    'The perfume house for the next generation. Premium-quality French fragrances — designer-inspired Impressions and Mazah Originals, crafted with heart, not ego.',
 }
 
 const VALUES = [
   {
-    title: 'Sourced at the Origin',
-    body: 'Rose from Grasse, frankincense from Oman, jasmine from Kannauj. We buy from the growers who do it best, and never substitute.',
+    title: 'Crafted in France',
+    body: 'Every fragrance is composed and bottled in France by master perfumers, using the same fine raw materials as the houses that inspire us.',
   },
   {
-    title: 'Blended In-House',
-    body: 'Every formula is composed and matured in our own atelier — 6 months and 50+ trials before a single bottle is filled.',
+    title: 'No Excessive Markups',
+    body: 'You pay for the perfume — not the marketing, the celebrity, or the gilded boutique. Designer-quality scent at an honest price.',
   },
   {
-    title: 'Made to Last',
-    body: 'We formulate at extrait and eau-de-parfum strength so our scents wear 8–12 hours, not 8–12 minutes.',
+    title: 'Clean & Cruelty-Free',
+    body: 'Vegan, cruelty-free, and made with clean ingredients. Beautiful fragrance you can feel good about wearing every day.',
   },
 ]
 
 export default function AboutPage() {
   return (
-    <div className="pt-[120px] md:pt-[140px]">
-      {/* Hero */}
-      <section className="bg-hero-gradient py-16 md:py-20 text-center relative overflow-hidden">
-        <div
-          className="absolute inset-0 pointer-events-none"
-          style={{
-            background:
-              'radial-gradient(ellipse 50% 70% at 50% 50%, rgba(255,255,255,0.12) 0%, transparent 70%)',
-          }}
-        />
-        <div className="relative z-10 px-6">
-          <p className="font-body text-xs text-cream/70 uppercase tracking-[0.3em] mb-3">
-            Our Story
-          </p>
-          <h1 className="font-display text-4xl md:text-6xl text-white font-bold leading-tight max-w-3xl mx-auto">
-            We stop when it’s right — <em className="font-normal">not when it’s ready</em>.
+    <div>
+      {/* Hero banner */}
+      <section
+        className="relative overflow-hidden"
+        style={{
+          background:
+            'linear-gradient(120deg, #5C7A93 0%, #7C99AE 50%, #9DB4C4 100%)',
+        }}
+      >
+        <div className="container-wide py-20 md:py-28 text-paper">
+          <p className="eyebrow !text-paper/70 mb-3">About Mazah</p>
+          <h1 className="font-display text-4xl md:text-6xl font-extrabold tracking-tightest max-w-3xl leading-[1.03]">
+            The perfume house for the next generation.
           </h1>
+          <p className="text-paper/85 mt-5 max-w-xl">
+            Premium-quality French fragrances. No excessive markups. Crafted with
+            heart, not ego.
+          </p>
         </div>
       </section>
 
       {/* Intro */}
-      <section className="max-w-content mx-auto px-6 py-16 md:py-20 grid md:grid-cols-2 gap-12 items-center">
-        <div className="relative aspect-[4/3] rounded-card overflow-hidden bg-gradient-to-b from-amber-100 to-amber-50">
+      <section className="container-wide py-16 md:py-20 grid md:grid-cols-2 gap-12 items-center">
+        <div className="relative aspect-[4/3] rounded-card overflow-hidden bg-card">
           <Image
             src="/images/about-2.jpg"
             alt="Mazah ingredients"
@@ -58,41 +59,37 @@ export default function AboutPage() {
           />
         </div>
         <div>
-          <h2 className="font-heading text-3xl md:text-4xl text-charcoal mb-5">
-            A house built on <em>patience</em>
+          <h2 className="font-display text-3xl md:text-4xl font-bold tracking-tightest mb-5">
+            A house built on <span className="font-normal">honesty</span>
           </h2>
-          <p className="font-body text-base text-muted leading-relaxed mb-4">
-            Mazah began with a simple frustration: luxury fragrances that
-            vanished within the hour. So we built a house around longevity and
-            honesty — rare botanicals, generous concentrations, and the time it
-            takes to get a blend exactly right.
+          <p className="text-muted leading-relaxed mb-4">
+            Mazah began with a simple frustration: the world&apos;s most beautiful
+            fragrances came with the world&apos;s most absurd markups. So we built
+            a house around access and integrity — the same French craftsmanship,
+            without the gilded price tag.
           </p>
-          <p className="font-body text-base text-muted leading-relaxed">
-            Today, more than 10,000 wearers have helped us refine every formula
-            before launch. The result is a small, considered collection meant to
-            be worn — and remembered.
+          <p className="text-muted leading-relaxed">
+            Our Impressions reimagine the designer scents you love. Our Originals
+            are exclusive compositions crafted in France. Either way, you get
+            premium quality — and you keep your money.
           </p>
         </div>
       </section>
 
       {/* Values */}
-      <section className="bg-amber-50/40 py-16 md:py-20">
-        <div className="max-w-content mx-auto px-6">
-          <h2 className="font-heading text-3xl md:text-4xl text-charcoal text-center mb-12">
+      <section className="bg-canvas py-16 md:py-20 border-y border-line">
+        <div className="container-wide">
+          <h2 className="font-display text-3xl md:text-4xl font-bold tracking-tightest text-center mb-12">
             What makes a Mazah
           </h2>
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-3 gap-6">
             {VALUES.map((v) => (
-              <div key={v.title} className="bg-white rounded-card p-7 shadow-card">
-                <span className="w-10 h-10 rounded-full bg-gold-primary/15 grid place-items-center mb-4">
-                  <Check size={18} className="text-gold-primary" />
+              <div key={v.title} className="bg-paper rounded-card p-7 border border-line">
+                <span className="w-10 h-10 rounded-full bg-coral/10 grid place-items-center mb-4">
+                  <Check size={18} className="text-coral" />
                 </span>
-                <h3 className="font-heading text-xl text-charcoal mb-2">
-                  {v.title}
-                </h3>
-                <p className="font-body text-sm text-muted leading-relaxed">
-                  {v.body}
-                </p>
+                <h3 className="font-display text-lg font-bold mb-2">{v.title}</h3>
+                <p className="text-sm text-muted leading-relaxed">{v.body}</p>
               </div>
             ))}
           </div>
@@ -100,27 +97,17 @@ export default function AboutPage() {
       </section>
 
       {/* CTA */}
-      <section className="max-w-content mx-auto px-6 py-16 md:py-20 text-center">
-        <h2 className="font-display text-3xl md:text-4xl text-charcoal font-bold mb-4">
-          Find the one that’s <em className="font-normal">yours</em>
+      <section className="container-wide py-16 md:py-20 text-center">
+        <h2 className="font-display text-3xl md:text-4xl font-bold tracking-tightest mb-4">
+          Find the one that&apos;s <span className="font-normal">yours</span>
         </h2>
-        <p className="font-body text-base text-muted mb-8 max-w-md mx-auto">
+        <p className="text-muted mb-8 max-w-md mx-auto">
           Take the 30-second scent quiz, or sample the whole collection with our
           Discovery Kit.
         </p>
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
-          <Link
-            href="/quiz"
-            className="inline-flex items-center justify-center rounded-pill bg-gold-primary text-white px-8 py-3.5 font-body text-sm tracking-widest uppercase hover:bg-gold-muted transition-colors"
-          >
-            Find Your Scent
-          </Link>
-          <Link
-            href="/collections"
-            className="inline-flex items-center justify-center rounded-pill border border-charcoal/20 text-charcoal px-8 py-3.5 font-body text-sm tracking-widest uppercase hover:border-gold-primary hover:text-gold-primary transition-colors"
-          >
-            Shop Fragrances
-          </Link>
+          <Button href="/quiz" size="lg">Find Your Scent</Button>
+          <Button href="/collections" variant="outline" size="lg">Shop All</Button>
         </div>
       </section>
     </div>

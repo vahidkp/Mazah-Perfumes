@@ -1,9 +1,8 @@
 'use client'
 import { useState } from 'react'
-import { BadgeCheck } from 'lucide-react'
+import { BadgeCheck, Star, MessageSquare } from 'lucide-react'
 import type { Review } from '@/types'
 import StarRating from '@/components/ui/StarRating'
-import Button from '@/components/ui/Button'
 
 interface Props {
   reviews: Review[]
@@ -11,102 +10,168 @@ interface Props {
   count: number
 }
 
-// Approximate the star distribution from the average so the bar chart looks real.
-function distribution(rating: number) {
-  const five = Math.round((rating / 5) * 78)
-  const four = Math.round((rating / 5) * 15)
-  const three = Math.max(0, 100 - five - four - 3)
-  return [
-    { star: 5, pct: five },
-    { star: 4, pct: four },
-    { star: 3, pct: Math.min(three, 5) },
-    { star: 2, pct: 2 },
-    { star: 1, pct: 1 },
-  ]
+const FILTERS = ['Most Recent', 'Highest Rating', 'Lowest Rating', 'Verified']
+
+function initials(name: string) {
+  return name
+    .split(' ')
+    .map((w) => w[0])
+    .join('')
+    .slice(0, 2)
+    .toUpperCase()
 }
 
 export default function ReviewsSection({ reviews, rating, count }: Props) {
-  const [shown, setShown] = useState(6)
-  const dist = distribution(rating)
+  const [shown, setShown] = useState(5)
+  const [filter, setFilter] = useState('Most Recent')
+
+  const sorted = [...reviews]
+  if (filter === 'Highest Rating') sorted.sort((a, b) => b.rating - a.rating)
+  else if (filter === 'Lowest Rating') sorted.sort((a, b) => a.rating - b.rating)
+  else if (filter === 'Verified')
+    sorted.sort((a, b) => Number(b.verified) - Number(a.verified))
 
   return (
-    <section id="reviews" className="max-w-content mx-auto px-6 py-16 scroll-mt-32">
-      <h2 className="font-heading text-4xl text-charcoal mb-10">
-        Customer <em>Reviews</em>
-      </h2>
-      <div className="grid md:grid-cols-[300px_1fr] gap-10 md:gap-12">
-        {/* Summary */}
-        <div className="flex flex-col gap-4">
-          <p className="font-body text-6xl font-bold text-charcoal">{rating}</p>
-          <StarRating rating={rating} count={count} size={20} />
-          <p className="font-body text-sm text-muted">{count} verified reviews</p>
-
-          {/* Rating distribution bars */}
-          <div className="flex flex-col gap-1.5 mt-2">
-            {dist.map(({ star, pct }) => (
-              <div key={star} className="flex items-center gap-2">
-                <span className="font-body text-xs text-muted w-3">{star}</span>
-                <div className="flex-1 h-1.5 rounded-pill bg-charcoal/10 overflow-hidden">
-                  <div
-                    className="h-full bg-gold-primary"
-                    style={{ width: `${pct}%` }}
-                  />
-                </div>
-                <span className="font-body text-[11px] text-muted w-8 text-right">
-                  {pct}%
-                </span>
-              </div>
-            ))}
+    <section id="reviews" className="bg-canvas border-t border-line scroll-mt-20">
+      <div className="container-wide py-14">
+        {/* Trustpilot-style banner */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-center gap-3 sm:gap-5 text-center mb-10">
+          <div className="flex items-center gap-2">
+            <Star size={18} fill="#00B67A" stroke="#00B67A" />
+            <span className="font-semibold">Trustpilot</span>
           </div>
-
-          <Button variant="outline" className="self-start mt-2">
-            Write a Review
-          </Button>
+          <span className="text-muted text-sm">
+            Mazah is rated{' '}
+            <span className="font-semibold text-ink">Excellent</span>
+          </span>
+          <div className="flex items-center gap-2">
+            {[0, 1, 2, 3, 4].map((i) => (
+              <span
+                key={i}
+                className="w-5 h-5 grid place-items-center"
+                style={{ backgroundColor: '#00B67A' }}
+              >
+                <Star size={12} fill="#fff" stroke="#fff" />
+              </span>
+            ))}
+            <span className="text-sm font-medium ml-1">{rating}</span>
+          </div>
+          <span className="text-xs text-muted">Based on {count.toLocaleString()} reviews</span>
         </div>
 
-        {/* Review cards */}
-        <div className="flex flex-col gap-6">
-          {reviews.slice(0, shown).map((r) => (
-            <div
-              key={r.id}
-              className="p-6 border border-charcoal/10 rounded-card bg-white"
-            >
-              <div className="flex items-center justify-between mb-3">
-                <div className="flex items-center gap-2">
-                  <p className="font-body text-sm font-semibold">{r.author}</p>
-                  {r.verified && (
-                    <span className="inline-flex items-center gap-1 text-[10px] uppercase tracking-wider text-green-700 bg-green-50 px-1.5 py-0.5 rounded">
-                      <BadgeCheck size={11} /> Verified
-                    </span>
-                  )}
-                </div>
-                <p className="font-body text-xs text-muted">
-                  {new Date(r.date).toLocaleDateString('en-US', {
-                    month: 'short',
-                    year: 'numeric',
-                  })}
+        <div className="grid lg:grid-cols-[260px_1fr] gap-10">
+          {/* Summary + write review */}
+          <div>
+            <h2 className="font-display text-2xl font-bold tracking-tightest">
+              Customer Reviews
+            </h2>
+            <div className="flex items-end gap-3 mt-3">
+              <span className="font-display text-5xl font-extrabold">{rating}</span>
+              <div className="pb-1">
+                <StarRating rating={rating} showCount={false} size={16} />
+                <p className="text-xs text-muted mt-1">
+                  Based on {count.toLocaleString()} reviews
                 </p>
               </div>
-              <StarRating rating={r.rating} size={13} />
-              <p className="font-body text-sm text-muted leading-relaxed mt-3">
-                {r.text}
-              </p>
             </div>
-          ))}
-          {shown < reviews.length && (
-            <Button
-              variant="ghost"
-              className="self-start"
-              onClick={() => setShown((s) => s + 4)}
-            >
-              Load More Reviews
-            </Button>
-          )}
-          {reviews.length === 0 && (
-            <p className="font-body text-sm text-muted">
-              Be the first to review this fragrance.
-            </p>
-          )}
+
+            <div className="flex gap-4 mt-5 text-sm border-b border-line">
+              <span className="pb-2 border-b-2 border-ink font-semibold">
+                Reviews ({count.toLocaleString()})
+              </span>
+              <span className="pb-2 text-muted">Questions (3)</span>
+            </div>
+
+            <button className="btn-outline w-full mt-5 text-sm">
+              Write a Review
+            </button>
+          </div>
+
+          {/* Review list */}
+          <div>
+            {/* Filters */}
+            <div className="flex flex-wrap gap-2 mb-6">
+              {FILTERS.map((f) => (
+                <button
+                  key={f}
+                  onClick={() => setFilter(f)}
+                  aria-pressed={filter === f}
+                  className={`text-xs rounded-pill px-3 py-1.5 border transition-colors ${
+                    filter === f
+                      ? 'border-ink bg-ink text-paper'
+                      : 'border-line text-muted hover:border-ink'
+                  }`}
+                >
+                  {f}
+                </button>
+              ))}
+            </div>
+
+            <div className="space-y-6">
+              {sorted.slice(0, shown).map((r) => (
+                <div key={r.id} className="border-b border-line pb-6">
+                  <div className="flex items-start gap-3">
+                    <span className="w-9 h-9 rounded-full bg-card grid place-items-center text-xs font-semibold shrink-0">
+                      {initials(r.author)}
+                    </span>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center justify-between gap-2">
+                        <div className="flex items-center gap-2">
+                          <p className="text-sm font-semibold">{r.author}</p>
+                          {r.verified && (
+                            <span className="inline-flex items-center gap-1 text-[10px] uppercase tracking-wide text-green-700">
+                              <BadgeCheck size={12} /> Verified
+                            </span>
+                          )}
+                        </div>
+                        <p className="text-xs text-muted">
+                          {new Date(r.date).toLocaleDateString('en-US', {
+                            day: '2-digit',
+                            month: '2-digit',
+                            year: 'numeric',
+                          })}
+                        </p>
+                      </div>
+                      <div className="mt-1">
+                        <StarRating rating={r.rating} showCount={false} size={13} />
+                      </div>
+                      {r.title && (
+                        <p className="text-sm font-semibold mt-2">{r.title}</p>
+                      )}
+                      <p className="text-sm text-muted leading-relaxed mt-1">
+                        {r.text}
+                      </p>
+
+                      {r.reply && (
+                        <div className="mt-3 ml-1 pl-3 border-l-2 border-line">
+                          <p className="text-xs font-semibold flex items-center gap-1.5">
+                            <MessageSquare size={12} /> Mazah Perfumes
+                          </p>
+                          <p className="text-sm text-muted leading-relaxed mt-1">
+                            {r.reply}
+                          </p>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {shown < sorted.length && (
+              <button
+                onClick={() => setShown((s) => s + 5)}
+                className="btn-outline mt-8 text-sm px-12"
+              >
+                Show More
+              </button>
+            )}
+            {reviews.length === 0 && (
+              <p className="text-sm text-muted">
+                Be the first to review this fragrance.
+              </p>
+            )}
+          </div>
         </div>
       </div>
     </section>

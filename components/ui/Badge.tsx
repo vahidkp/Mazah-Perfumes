@@ -1,24 +1,38 @@
 import { cn } from '@/lib/utils'
 
-const styles = {
-  NEW: 'bg-gold-primary text-white',
-  BESTSELLER: 'bg-charcoal text-cream',
-  LIMITED: 'bg-red-600 text-white',
+const styles: Record<string, string> = {
+  NEW: 'bg-ink text-paper',
+  BESTSELLER: 'bg-ink text-paper',
+  LIMITED: 'bg-coral text-paper',
+}
+
+interface Props {
+  variant?: 'NEW' | 'BESTSELLER' | 'LIMITED'
+  children?: React.ReactNode
+  className?: string
+  /** Custom background/text colors (e.g. family or gender tags). */
+  color?: string
+  textColor?: string
 }
 
 export default function Badge({
   variant,
-}: {
-  variant: 'NEW' | 'BESTSELLER' | 'LIMITED'
-}) {
+  children,
+  className,
+  color,
+  textColor,
+}: Props) {
+  const label = children ?? variant
   return (
     <span
       className={cn(
-        'text-[9px] font-body font-semibold tracking-widest uppercase px-2 py-0.5 rounded',
-        styles[variant]
+        'inline-block text-[10px] font-body font-semibold tracking-[0.08em] uppercase px-2.5 py-1 rounded-pill leading-none',
+        variant && !color ? styles[variant] : 'bg-card text-ink',
+        className
       )}
+      style={color ? { backgroundColor: color, color: textColor } : undefined}
     >
-      {variant}
+      {label}
     </span>
   )
 }

@@ -1,147 +1,276 @@
 'use client'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
-import { Search, Heart, ShoppingBag, Menu, X } from 'lucide-react'
+import { useRouter } from 'next/navigation'
+import {
+  Search,
+  ShoppingBag,
+  Menu,
+  X,
+  User,
+  ChevronDown,
+  Sparkles,
+} from 'lucide-react'
 import { useCartStore } from '@/store/cart'
-import { useWishlistStore } from '@/store/wishlist'
-import { cn } from '@/lib/utils'
+import { PERFUMES_MENU, ABOUT_MENU } from '@/lib/data/site'
 
-const NAV_LINKS = [
-  { label: 'Collections', href: '/collections' },
-  { label: 'Find Your Scent', href: '/quiz' },
-  { label: 'Samples', href: '/discovery-kit' },
-  { label: 'About', href: '/about' },
-]
-
-// Routes whose top of page is a full-bleed dark hero that sits directly under
-// the navbar, where white nav ink reads correctly before scroll. Every other
-// page wraps its hero in a top-padding strip of light page background, so the
-// navbar overlays that light strip and needs dark ink to stay visible.
-const DARK_HERO_ROUTES = ['/', '/collections']
+// Shared "floating pill" surface — white, hairline border, soft shadow so it
+// reads on both the cream hero and white inner-page backgrounds.
+const PILL =
+  'bg-white rounded-pill border border-black/[0.06] shadow-[0_2px_12px_rgba(20,20,20,0.08)]'
 
 export default function Navbar() {
-  const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
-  const pathname = usePathname()
+  const [openDrop, setOpenDrop] = useState<string | null>(null)
+  const [query, setQuery] = useState('')
+  const router = useRouter()
   const cartCount = useCartStore((s) => s.items.reduce((a, i) => a + i.qty, 0))
-  const wishCount = useWishlistStore((s) => s.ids.length)
   const openCart = useCartStore((s) => s.openCart)
 
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 80)
-    onScroll()
-    window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
-  }, [])
-
-  // White ink only over a dark hero before scrolling; otherwise dark ink so
-  // the navbar is visible on light-background pages.
-  const overDarkHero = DARK_HERO_ROUTES.includes(pathname)
-  const inkColor = scrolled || !overDarkHero ? 'var(--charcoal)' : 'white'
+  const submitSearch = (e: React.FormEvent) => {
+    e.preventDefault()
+    router.push(query ? `/collections?q=${encodeURIComponent(query)}` : '/collections')
+  }
 
   return (
-    <>
-      <nav
-        className={cn(
-          'fixed top-9 inset-x-0 z-50 h-[60px] md:h-[72px] flex items-center px-5 md:px-6 transition-all duration-300',
-          scrolled ? 'bg-cream/90 backdrop-blur-md shadow-card' : 'bg-transparent'
-        )}
-      >
-        {/* Logo */}
+    <header className="sticky top-0 z-50">
+      <nav className="container-wide h-16 md:h-[72px] flex items-center gap-2.5">
+        {/* Mobile: menu button */}
+        <button
+          className="lg:hidden -ml-1 grid place-items-center w-10 h-10 rounded-full bg-white border border-black/[0.06] shadow-[0_2px_12px_rgba(20,20,20,0.08)]"
+          onClick={() => setMenuOpen(true)}
+          aria-label="Open menu"
+        >
+          <Menu size={20} />
+        </button>
+
+        {/* Logo — white pill wordmark */}
         <Link
           href="/"
-          className="font-display text-2xl font-bold tracking-widest mr-auto"
-          style={{ color: inkColor }}
+          className={`${PILL} mx-auto lg:mx-0 inline-flex items-center h-11 px-5 font-display text-xl font-extrabold lowercase tracking-tightest text-ink`}
         >
-          MAZAH
+          mazah
         </Link>
 
-        {/* Desktop nav links */}
-        <ul className="hidden lg:flex gap-7 absolute left-1/2 -translate-x-1/2">
-          {NAV_LINKS.map((link) => (
-            <li key={link.label}>
-              <Link
-                href={link.href}
-                className="font-body text-sm tracking-wider uppercase transition-colors hover:text-gold-primary"
-                style={{ color: inkColor }}
+        {/* Left nav pills */}
+        <div className="hidden lg:flex items-center gap-2.5">
+          {/* Perfumes + Home Scents share one pill */}
+          <div className={`${PILL} flex items-center h-11 px-1.5`}>
+            <div
+              className="relative h-full"
+              onMouseEnter={() => setOpenDrop('perfumes')}
+              onMouseLeave={() => setOpenDrop(null)}
+              onKeyDown={(e) => e.key === 'Escape' && setOpenDrop(null)}
+            >
+              <button
+                onClick={() =>
+                  setOpenDrop(openDrop === 'perfumes' ? null : 'perfumes')
+                }
+                aria-haspopup="menu"
+                aria-expanded={openDrop === 'perfumes'}
+                className="flex items-center gap-1 h-full px-3 text-[13px] uppercase tracking-[0.04em] font-medium hover:text-coral transition-colors"
               >
-                {link.label}
-              </Link>
-            </li>
-          ))}
-        </ul>
+                Perfumes <ChevronDown size={13} />
+              </button>
+              {openDrop === 'perfumes' && (
+                <div className="absolute left-0 top-full pt-3">
+                  <div className="bg-paper border border-line rounded-card shadow-pop p-6 grid grid-cols-3 gap-8 w-[480px]">
+                    {PERFUMES_MENU.map((col) => (
+                      <div key={col.title}>
+                        <p className="eyebrow mb-3">{col.title}</p>
+                        <ul className="space-y-2">
+                          {col.links.map((l) => (
+                            <li key={l.label}>
+                              <Link
+                                href={l.href}
+                                className="text-sm text-muted hover:text-ink transition-colors"
+                              >
+                                {l.label}
+                              </Link>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+            <Link
+              href="/discovery-kit"
+              className="flex items-center gap-1 h-11 px-3 text-[13px] uppercase tracking-[0.04em] font-medium hover:text-coral transition-colors"
+            >
+              Home Scents <ChevronDown size={13} />
+            </Link>
+          </div>
 
-        {/* Right actions */}
-        <div className="flex items-center gap-3 md:gap-4 ml-auto">
-          <button aria-label="Search" className="relative p-1 hidden sm:block">
-            <Search size={20} style={{ color: inkColor }} />
-          </button>
-          <Link href="/quiz" aria-label="Saved / Find your scent" className="relative p-1">
-            <Heart size={20} style={{ color: inkColor }} />
-            {wishCount > 0 && (
-              <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-gold-primary text-white text-[10px] font-bold grid place-items-center">
-                {wishCount}
-              </span>
-            )}
+          {/* AI Scent Finder pill */}
+          <Link
+            href="/quiz"
+            className={`${PILL} inline-flex items-center gap-2 h-11 px-4`}
+          >
+            <span
+              className="grid place-items-center w-5 h-5 rounded-full"
+              style={{ backgroundColor: '#F7DAE3' }}
+            >
+              <Sparkles size={12} style={{ color: '#E0719A' }} />
+            </span>
+            <span className="text-[13px] uppercase tracking-[0.04em] font-medium">
+              AI Scent Finder
+            </span>
           </Link>
-          <button onClick={openCart} aria-label="Cart" className="relative p-1">
-            <ShoppingBag size={20} style={{ color: inkColor }} />
+        </div>
+
+        {/* Right cluster */}
+        <div className="flex items-center gap-2.5 ml-auto">
+          {/* Search pill with coral submit button */}
+          <form
+            onSubmit={submitSearch}
+            className={`${PILL} hidden md:flex items-center h-11 pl-4 pr-1.5 w-52 lg:w-64`}
+          >
+            <input
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder="Search"
+              className="bg-transparent text-sm outline-none w-full"
+            />
+            <button
+              type="submit"
+              aria-label="Search"
+              className="shrink-0 w-8 h-8 rounded-full bg-coral grid place-items-center text-white hover:brightness-95 transition"
+            >
+              <Search size={15} />
+            </button>
+          </form>
+
+          {/* About dropdown pill */}
+          <div
+            className="hidden lg:block relative"
+            onMouseEnter={() => setOpenDrop('about')}
+            onMouseLeave={() => setOpenDrop(null)}
+            onKeyDown={(e) => e.key === 'Escape' && setOpenDrop(null)}
+          >
+            <button
+              onClick={() => setOpenDrop(openDrop === 'about' ? null : 'about')}
+              aria-haspopup="menu"
+              aria-expanded={openDrop === 'about'}
+              className={`${PILL} flex items-center gap-1 h-11 px-4 text-[13px] uppercase tracking-[0.04em] font-medium hover:text-coral transition-colors`}
+            >
+              About <ChevronDown size={13} />
+            </button>
+            {openDrop === 'about' && (
+              <div className="absolute right-0 top-full pt-3">
+                <div className="bg-paper border border-line rounded-card shadow-pop p-4 w-44">
+                  <ul className="space-y-2">
+                    {ABOUT_MENU.map((l) => (
+                      <li key={l.label}>
+                        <Link
+                          href={l.href}
+                          className="text-sm text-muted hover:text-ink transition-colors"
+                        >
+                          {l.label}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Account — white pill so it reads on busy hero backgrounds */}
+          <Link
+            href="/about"
+            aria-label="Account"
+            className={`${PILL} hidden sm:grid place-items-center w-11 h-11 text-ink hover:text-coral transition-colors`}
+          >
+            <User size={19} />
+          </Link>
+
+          {/* Cart — white pill with live count badge */}
+          <button
+            onClick={openCart}
+            aria-label="Cart"
+            className={`${PILL} relative grid place-items-center w-11 h-11 text-ink hover:text-coral transition-colors`}
+          >
+            <ShoppingBag size={20} />
             {cartCount > 0 && (
-              <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-gold-primary text-white text-[10px] font-bold grid place-items-center">
+              <span className="absolute -top-1 -right-1 min-w-[18px] h-[18px] px-1 rounded-full bg-coral text-white text-[10px] font-bold leading-none grid place-items-center">
                 {cartCount}
               </span>
             )}
-          </button>
-          {/* Sticky purchase path — always dark for contrast */}
-          <Link
-            href="/collections"
-            className="hidden md:inline-flex items-center rounded-pill bg-charcoal text-cream px-5 py-2 font-body text-xs tracking-widest uppercase hover:bg-gold-primary transition-colors"
-          >
-            Shop Now
-          </Link>
-          <button
-            className="lg:hidden"
-            onClick={() => setMenuOpen(true)}
-            aria-label="Menu"
-          >
-            <Menu size={22} style={{ color: inkColor }} />
           </button>
         </div>
       </nav>
 
       {/* Mobile drawer */}
       {menuOpen && (
-        <div className="fixed inset-0 z-[70] bg-charcoal/95 flex flex-col p-8">
-          <button
+        <div className="fixed inset-0 z-[80] lg:hidden">
+          <div
+            className="absolute inset-0 bg-ink/40 backdrop-blur-sm"
             onClick={() => setMenuOpen(false)}
-            className="self-end mb-12"
-            aria-label="Close menu"
-          >
-            <X size={28} className="text-cream" />
-          </button>
-          <ul className="flex flex-col gap-7">
-            {[{ label: 'Home', href: '/' }, ...NAV_LINKS].map((link) => (
-              <li key={link.label}>
+          />
+          <div className="absolute left-0 top-0 bottom-0 w-[82%] max-w-xs bg-paper flex flex-col p-6 overflow-y-auto">
+            <div className="flex items-center justify-between mb-6">
+              <span className="inline-flex items-center bg-ink text-paper rounded-pill px-3.5 py-1.5 font-display text-lg font-extrabold lowercase tracking-tightest leading-none">
+                mazah
+              </span>
+              <button onClick={() => setMenuOpen(false)} aria-label="Close menu">
+                <X size={24} />
+              </button>
+            </div>
+            <form
+              onSubmit={(e) => {
+                submitSearch(e)
+                setMenuOpen(false)
+              }}
+              className="flex items-center gap-2 bg-card rounded-pill px-4 h-10 mb-6 border border-line"
+            >
+              <Search size={16} className="text-muted" />
+              <input
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                placeholder="Search scents"
+                className="bg-transparent text-sm outline-none w-full"
+              />
+            </form>
+            <nav className="flex flex-col">
+              {PERFUMES_MENU.flatMap((c) => c.links)
+                .filter(
+                  (l, i, arr) => arr.findIndex((x) => x.href === l.href) === i
+                )
+                .slice(0, 6)
+                .map((l) => (
+                  <Link
+                    key={l.href}
+                    href={l.href}
+                    onClick={() => setMenuOpen(false)}
+                    className="py-3 border-b border-line text-base font-medium"
+                  >
+                    {l.label}
+                  </Link>
+                ))}
+              {ABOUT_MENU.map((l) => (
                 <Link
-                  href={link.href}
-                  className="font-display text-4xl text-cream hover:text-gold-light transition-colors"
+                  key={l.href}
+                  href={l.href}
                   onClick={() => setMenuOpen(false)}
+                  className="py-3 border-b border-line text-base font-medium"
                 >
-                  {link.label}
+                  {l.label}
                 </Link>
-              </li>
-            ))}
-          </ul>
-          <Link
-            href="/collections"
-            onClick={() => setMenuOpen(false)}
-            className="mt-10 inline-flex items-center justify-center rounded-pill bg-gold-primary text-white px-6 py-3.5 font-body text-sm tracking-widest uppercase"
-          >
-            Shop Now
-          </Link>
+              ))}
+            </nav>
+            <Link
+              href="/collections"
+              onClick={() => setMenuOpen(false)}
+              className="btn-solid w-full mt-6"
+            >
+              Shop All
+            </Link>
+          </div>
         </div>
       )}
-    </>
+    </header>
   )
 }

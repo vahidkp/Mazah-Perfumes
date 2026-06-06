@@ -1,25 +1,21 @@
 import HeroSection from '@/components/home/HeroSection'
-import TrustBar from '@/components/home/TrustBar'
-import AboutSection from '@/components/home/AboutSection'
-import NewCollection from '@/components/home/NewCollection'
-import PressStrip from '@/components/home/PressStrip'
-import EditorialBanner from '@/components/home/EditorialBanner'
-import FeaturesSection from '@/components/home/FeaturesSection'
-import GallerySection from '@/components/home/GallerySection'
-import NewsletterSection from '@/components/home/NewsletterSection'
+import LatestDrops from '@/components/home/LatestDrops'
+import ImpressionsOriginals from '@/components/home/ImpressionsOriginals'
+import CategoryCards from '@/components/home/CategoryCards'
+import FeaturedFrance from '@/components/home/FeaturedFrance'
+import BoutiqueBanner from '@/components/home/BoutiqueBanner'
+import NextGenBanner from '@/components/home/NextGenBanner'
 
 export default function Home() {
   return (
     <>
       <HeroSection />
-      <TrustBar />
-      <AboutSection />
-      <NewCollection />
-      <PressStrip />
-      <EditorialBanner />
-      <FeaturesSection />
-      <GallerySection />
-      <NewsletterSection />
+      <LatestDrops />
+      <ImpressionsOriginals />
+      <CategoryCards />
+      <FeaturedFrance />
+      <BoutiqueBanner />
+      <NextGenBanner />
     </>
   )
 }

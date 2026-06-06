@@ -8,11 +8,11 @@ export default function RelatedProducts({
 }) {
   if (!products.length) return null
   return (
-    <section className="max-w-content mx-auto px-6 py-16 border-t border-charcoal/10">
-      <h2 className="font-heading text-4xl text-charcoal mb-8">
-        You May Also <em>Like</em>
+    <section className="container-wide py-12 border-t border-line">
+      <h2 className="font-display text-2xl md:text-3xl font-bold tracking-tightest mb-6">
+        You Might <span className="font-normal">Love</span>
       </h2>
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-8">
         {products.map((p) => (
           <ProductCard key={p.id} product={p} />
         ))}
