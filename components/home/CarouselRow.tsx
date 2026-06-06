@@ -64,7 +64,7 @@ export default function CarouselRow({
 
       <div
         ref={ref}
-        className="flex gap-4 overflow-x-auto no-scrollbar snap-x-mandatory -mx-4 px-4 sm:mx-0 sm:px-0"
+        className="flex gap-4 overflow-x-auto no-scrollbar snap-x-mandatory -mr-4 pr-4 sm:mr-0 sm:pr-0"
       >
         {Array.isArray(children) ? (
           (children as React.ReactNode[]).map((child, i) => (

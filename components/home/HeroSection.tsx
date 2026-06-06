@@ -3,8 +3,8 @@ import Button from '@/components/ui/Button'
 
 export default function HeroSection() {
   return (
-    <section className="relative overflow-hidden -mt-16 md:-mt-[72px]">
-      <div className="relative min-h-[600px] md:min-h-[730px]">
+    <section className="relative overflow-hidden lg:-mt-[72px]">
+      <div className="relative min-h-[calc(100dvh-100px)] lg:min-h-screen">
         {/* Full-bleed hero: bottles floating over a honey pool */}
         <Image
           src="/images/hero-honey.jpg"
@@ -18,7 +18,7 @@ export default function HeroSection() {
         <div className="absolute inset-0 bg-gradient-to-tr from-[#f2e3c2]/90 via-[#f2e3c2]/15 to-transparent" />
 
         {/* Copy — kept clear of the floating nav via bottom alignment */}
-        <div className="relative container-wide flex items-end pb-12 sm:pb-16 min-h-[600px] md:min-h-[730px]">
+        <div className="relative container-wide flex items-end pb-12 sm:pb-16 min-h-[calc(100dvh-100px)] lg:min-h-screen">
           <div className="max-w-xl">
             <h1 className="font-display text-4xl sm:text-5xl lg:text-[3.5rem] tracking-tightest text-ink leading-[1.04]">
               Smell into

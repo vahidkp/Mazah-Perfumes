@@ -38,16 +38,28 @@ const SOCIALS = [
 
 function SeoRow({ items }: { items: string[] }) {
   return (
-    <div className="flex flex-wrap gap-x-5 gap-y-2 text-xs text-muted">
-      {items.map((t) => (
-        <Link
-          key={t}
-          href="/collections"
-          className="hover:text-ink transition-colors whitespace-nowrap"
-        >
-          {t}
-        </Link>
-      ))}
+    <div className="flex gap-x-7 overflow-x-auto no-scrollbar text-sm text-muted">
+      {items.map((t) => {
+        const inspired = t.match(/^Inspired by (.+)$/)
+        return (
+          <Link
+            key={t}
+            href="/collections"
+            className="shrink-0 whitespace-nowrap hover:text-ink transition-colors"
+          >
+            {inspired ? (
+              <>
+                Inspired by{' '}
+                <span className="font-bold underline underline-offset-2 text-ink">
+                  {inspired[1]}
+                </span>
+              </>
+            ) : (
+              t
+            )}
+          </Link>
+        )
+      })}
     </div>
   )
 }

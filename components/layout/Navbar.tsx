@@ -34,27 +34,16 @@ export default function Navbar() {
 
   return (
     <header className="sticky top-0 z-50">
-      <nav className="container-wide h-16 md:h-[72px] flex items-center gap-2.5">
-        {/* Mobile: menu button */}
-        <button
-          className="lg:hidden -ml-1 grid place-items-center w-10 h-10 rounded-full bg-white border border-black/[0.06] shadow-[0_2px_12px_rgba(20,20,20,0.08)]"
-          onClick={() => setMenuOpen(true)}
-          aria-label="Open menu"
-        >
-          <Menu size={20} />
-        </button>
-
-        {/* Logo — white pill wordmark */}
+      {/* ============ DESKTOP (lg+) — floating pills over the hero ============ */}
+      <nav className="hidden lg:flex container-wide h-[72px] items-center gap-2.5">
         <Link
           href="/"
-          className={`${PILL} mx-auto lg:mx-0 inline-flex items-center h-11 px-5 font-display text-xl font-extrabold lowercase tracking-tightest text-ink`}
+          className={`${PILL} inline-flex items-center h-11 px-5 font-display text-xl font-extrabold lowercase tracking-tightest text-ink`}
         >
           mazah
         </Link>
 
-        {/* Left nav pills */}
-        <div className="hidden lg:flex items-center gap-2.5">
-          {/* Perfumes + Home Scents share one pill */}
+        <div className="flex items-center gap-2.5">
           <div className={`${PILL} flex items-center h-11 px-1.5`}>
             <div
               className="relative h-full"
@@ -104,7 +93,6 @@ export default function Navbar() {
             </Link>
           </div>
 
-          {/* AI Scent Finder pill */}
           <Link
             href="/quiz"
             className={`${PILL} inline-flex items-center gap-2 h-11 px-4`}
@@ -121,17 +109,16 @@ export default function Navbar() {
           </Link>
         </div>
 
-        {/* Right cluster */}
         <div className="flex items-center gap-2.5 ml-auto">
-          {/* Search pill with coral submit button */}
           <form
             onSubmit={submitSearch}
-            className={`${PILL} hidden md:flex items-center h-11 pl-4 pr-1.5 w-52 lg:w-64`}
+            className={`${PILL} flex items-center h-11 pl-4 pr-1.5 w-52 lg:w-64`}
           >
             <input
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Search"
+              aria-label="Search"
               className="bg-transparent text-sm outline-none w-full"
             />
             <button
@@ -143,9 +130,8 @@ export default function Navbar() {
             </button>
           </form>
 
-          {/* About dropdown pill */}
           <div
-            className="hidden lg:block relative"
+            className="relative"
             onMouseEnter={() => setOpenDrop('about')}
             onMouseLeave={() => setOpenDrop(null)}
             onKeyDown={(e) => e.key === 'Escape' && setOpenDrop(null)}
@@ -178,16 +164,14 @@ export default function Navbar() {
             )}
           </div>
 
-          {/* Account — white pill so it reads on busy hero backgrounds */}
           <Link
             href="/about"
             aria-label="Account"
-            className={`${PILL} hidden sm:grid place-items-center w-11 h-11 text-ink hover:text-coral transition-colors`}
+            className={`${PILL} grid place-items-center w-11 h-11 text-ink hover:text-coral transition-colors`}
           >
             <User size={19} />
           </Link>
 
-          {/* Cart — white pill with live count badge */}
           <button
             onClick={openCart}
             aria-label="Cart"
@@ -203,7 +187,73 @@ export default function Navbar() {
         </div>
       </nav>
 
-      {/* Mobile drawer */}
+      {/* ============ MOBILE (<lg) — solid white bar + centered logo pill ===== */}
+      <div className="lg:hidden relative">
+        <div className="container-wide h-16 flex items-center gap-2.5 bg-paper shadow-[0_2px_10px_rgba(20,20,20,0.05)]">
+          {/* Coral hamburger */}
+          <button
+            onClick={() => setMenuOpen(true)}
+            aria-label="Open menu"
+            className="shrink-0 grid place-items-center w-11 h-11 rounded-2xl bg-coral text-white"
+          >
+            <Menu size={20} />
+          </button>
+
+          {/* Search bar */}
+          <form
+            onSubmit={submitSearch}
+            className="flex-1 min-w-0 flex items-center h-11 pl-4 pr-1.5 rounded-pill bg-white border border-black/[0.07]"
+          >
+            <input
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder="Search"
+              aria-label="Search"
+              className="bg-transparent text-sm outline-none w-full"
+            />
+            <button
+              type="submit"
+              aria-label="Search"
+              className="shrink-0 w-8 h-8 rounded-full bg-coral grid place-items-center text-white"
+            >
+              <Search size={15} />
+            </button>
+          </form>
+
+          {/* Account */}
+          <Link
+            href="/about"
+            aria-label="Account"
+            className="shrink-0 grid place-items-center w-11 h-11 rounded-full bg-card text-ink"
+          >
+            <User size={18} />
+          </Link>
+
+          {/* Cart */}
+          <button
+            onClick={openCart}
+            aria-label="Cart"
+            className="shrink-0 relative grid place-items-center w-11 h-11 rounded-full bg-card text-ink"
+          >
+            <ShoppingBag size={19} />
+            {cartCount > 0 && (
+              <span className="absolute -top-1 -right-1 min-w-[18px] h-[18px] px-1 rounded-full bg-coral text-white text-[10px] font-bold leading-none grid place-items-center">
+                {cartCount}
+              </span>
+            )}
+          </button>
+        </div>
+
+        {/* Centered logo pill overlapping the hero / page top */}
+        <Link
+          href="/"
+          className={`${PILL} absolute left-1/2 -translate-x-1/2 -bottom-5 z-10 inline-flex items-center h-10 px-7 font-display text-lg font-extrabold lowercase tracking-tightest text-ink`}
+        >
+          mazah
+        </Link>
+      </div>
+
+      {/* ============ Mobile drawer ============ */}
       {menuOpen && (
         <div className="fixed inset-0 z-[80] lg:hidden">
           <div
@@ -231,6 +281,7 @@ export default function Navbar() {
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder="Search scents"
+                aria-label="Search scents"
                 className="bg-transparent text-sm outline-none w-full"
               />
             </form>
